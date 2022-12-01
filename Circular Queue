@@ -1,0 +1,97 @@
+#include <stdio.h>
+#include <stdlib.h> //Author - Zohaib,Date-30/11/22
+
+struct Queue
+{
+    int size;
+    int front;
+    int rear;
+    int *Q;
+};
+void Create(struct Queue *q, int size)
+{
+    q->size = size;
+    q->front = q->rear = 0;
+    q->Q = (int *)malloc(q->size * sizeof(int));
+}
+void enqueue(struct Queue *q, int x)
+{
+    if ((q->rear +1)%q->size == q->front)
+    {
+        printf("Queue Full\n");
+    }
+    else
+    {
+        q->rear = (q->rear+1)%q->size;
+        q->Q[q->rear] = x;
+    }
+}
+int dequeue(struct Queue *q)
+{
+    int x = -1;
+    if (q->front == q->rear)
+    {
+        printf("Queue is Empty\n");
+    }
+    else
+    {
+        q->front = (q->front+1)%q->size;
+        x = q->Q[q->front];
+    }
+    return x;
+}
+void Display(struct Queue q)
+{
+    int i = q.front+1;
+    do
+    {
+     printf("%d ",q.Q[i])  ;
+     i= (i+1)%q.size; 
+    } while (i!=(q.rear+1)%q.size);
+    printf("\n");
+}
+int main()
+{
+    struct Queue q;
+    int size,num_elem,data,choice,data1,x;
+    printf("Create Queue\n");
+    printf("Enter Size of Queue\n");
+    scanf("%d", &size);
+    Create(&q, size);
+    printf("Enter number of elements in Queue\n");
+    scanf("%d", &num_elem);
+    if(num_elem>size)
+    {
+        printf("Error! Program Terminated\n"); exit(1);
+    }
+    for(int i =0; i<num_elem;i++)
+    {
+        data = -1;
+        printf("Enter Queue Element : ");
+        scanf("%d", &data);
+        enqueue(&q,data);
+    }
+    printf("Queue Created\n"); 
+    while(choice!= 5)
+    {
+        printf("Choose Operation : 1.Display, 2.Enqueue, 3.Dequeue, 4.Exit");
+        scanf("%d", &choice);
+        switch (choice)
+        {
+            case 1: printf("Your Queue is : ");
+            Display(q);
+            break;
+            
+            case 2:
+            printf("Enter Data : "); scanf("%d", &data1); enqueue(&q,data1); 
+            Display(q);
+            break;
+            
+            case 3: x=dequeue(&q); Display(q); printf("Deleted Element: %d\n", x);
+            break;
+            case 4: printf("Program Terminated\n"); exit(1); break;
+            default : printf("Wrong Input, Exiting Program!"); exit(1);
+        }
+    }
+    return 0;
+}
