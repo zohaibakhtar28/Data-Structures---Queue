@@ -1,0 +1,102 @@
+#include <stdio.h>
+#include <stdlib.h> //Author - Zohaib,Date-30/11//22
+struct Queue
+{
+    int size;
+    int front;
+    int rear;
+    int *Q;
+};
+void Create(struct Queue *q, int size)
+{
+    q->size = size;
+    q->front = q->rear = -1;
+    q->Q = (int *)malloc(q->size * sizeof(int));
+}
+void enqueue(struct Queue *q, int x)
+{
+    if (q->rear == q->size - 1)
+    {
+        printf("Queue Full\n");
+    }
+    else
+    {
+        q->rear++;
+        q->Q[q->rear] = x;
+    }
+}
+int dequeue(struct Queue *q)
+{
+    int x = -1;
+    if (q->front == q->rear)
+    {
+        printf("Queue is Empty\n");
+    }
+    else
+    {
+        q->front++;
+        x = q->Q[q->front];
+    }
+    return x;
+}
+void Display(struct Queue q)
+{
+    for (int i = q.front + 1; i <= q.rear; i++)
+    {
+        printf("%d ", q.Q[i]);
+    }
+    printf("\n");
+}
+int main()
+{
+    struct Queue q;
+    int size, num_elem, choice, data1, data2,x;
+    printf("Create Queue, Enter Size\n");
+    scanf("%d", &size);
+    Create(&q, size);
+    printf("Enter Number of Elements\n");
+    scanf("%d", &num_elem);
+    if (num_elem > size)
+    {
+        printf("Wrong Input, Program Terminated\n");
+        exit(1);
+    }
+    for (int i = 0; i < num_elem; i++)
+    {
+        int elem = -1;
+        printf("Enter Element: ");
+        scanf("%d", &elem);
+        enqueue(&q, elem);
+    }
+    printf("Queue Created\n");
+    while (choice != 5)
+    {
+        printf("Choose Operation : 1.Enqueue, 2.Dequeue, 3.Display Queue, 4.Exit\n");
+        scanf("%d", &choice);
+        switch (choice)
+        {
+        case 1:
+            printf("Enter Data :");
+            scanf("%d", &data1);
+            enqueue(&q, data1);
+            Display(q);
+            break;
+        case 2:
+            x = dequeue(&q);
+            Display(q); printf("Deleted Element : %d\n", x);
+            break;
+        case 3:
+            printf("Your Queue : ");
+            Display(q);
+            break;
+        case 4:
+            printf("Program Exited!");
+            exit(1);
+            break;
+        default:
+            printf("Wrong Choice, Program Exited!\n");
+            break;
+        }
+    }
+     return 0;
+}
