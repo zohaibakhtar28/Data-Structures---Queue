@@ -1,0 +1,101 @@
+#include <stdio.h>
+#include <stdlib.h> // Author - Zohaib, Date - 30/11/22
+struct Node
+{
+    int data;
+    struct Node *next;
+} *front = NULL, *rear = NULL;
+void enqueue(int x)
+{
+    struct Node *t;
+    t = (struct Node *)malloc(sizeof(struct Node));
+    if (t == NULL)
+    {
+        printf("Queue is Full\n");
+    }
+    else
+    {
+        t->data = x;
+        t->next = NULL;
+        if (front == NULL)
+        {
+            front = rear = t;
+        }
+        else
+        {
+            rear->next = t;
+            rear = t;
+        }
+    }
+}
+int dequeue()
+{
+    int x = -1;
+    struct Node *p;
+    if (front == NULL)
+    {
+        printf("Queue is Empty\n");
+    }
+    else
+    {
+        x = front->data;
+        p = front;
+        front = front->next;
+        free(p);
+    }
+    return x;
+}
+void Display()
+{
+    struct Node *p = front;
+    while (p)
+    {
+        printf("%d ", p->data);
+        p = p->next;
+    }
+    printf("\n");
+}
+int main()
+{
+    int num_elem, data, choice, data1,x;
+    printf("Create Queue\n");
+    printf("Enter Number of Elements in Queue\n");
+    scanf("%d", &num_elem);
+    for (int i = 0; i < num_elem; i++)
+    {
+        data = -1;
+        printf("Enter Queue Element: ");
+        scanf("%d", &data);
+        enqueue(data);
+    }
+    printf("Queue Created\n");
+    while (choice != 5)
+    {
+        printf("Choose Operation : 1.Enqueue, 2.Dequeue, 3.Display, 4.Exit");
+        scanf("%d", &choice);
+        switch (choice)
+        {
+        case 1:
+            printf("Enter Data\n");
+            scanf("%d", &data1);
+            enqueue(data1);
+            Display();
+            break;
+        case 2:
+            x = dequeue(); 
+            Display(); printf("Deleted Element : %d\n",x);
+            break;
+        case 3:
+            printf("Your Queue is :");
+                Display();
+            break;
+        case 4:
+            printf("Program Terminated");
+            exit(1);
+        default:
+            printf("Wrong Input, Program Terminated\n");
+            exit(1);
+        }
+    }
+    return 0;
+}
